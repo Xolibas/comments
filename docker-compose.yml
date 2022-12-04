@@ -24,7 +24,7 @@ services:
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
-      - DB_HOST=mysqldb
+      - DB_HOST=$MYSQLDB_HOST
       - DB_USER=$MYSQLDB_USER
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
@@ -45,8 +45,23 @@ services:
       - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     networks:
       - frontend  
-
-volumes: 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    env_file: ./.env
+    links:
+      - mysqldb
+    environment:
+      PMA_HOST: $MYSQLDB_HOST
+      PMA_PORT: $MYSQLDB_DOCKER_PORT
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - $PHPMYADMIN_PORT:80
+    networks:
+      - backend
+    depends_on:
+      - mysqldb
+volumes:
   db:
 
 networks:
