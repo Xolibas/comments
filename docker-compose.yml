@@ -21,6 +21,8 @@ services:
     build: ./server
     restart: unless-stopped
     env_file: ./.env
+    volumes:
+      - ./server/uploads:/server/uploads
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
@@ -29,7 +31,6 @@ services:
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
-      - CLIENT_ORIGIN=$CLIENT_ORIGIN
     networks:
       - backend
       - frontend
@@ -41,6 +42,7 @@ services:
       context: ./client
       args:
         - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+        - REACT_APP_API_STATIC_URL=$CLIENT_API_STATIC_URL
     ports:
       - $REACT_LOCAL_PORT:$REACT_DOCKER_PORT
     networks:
