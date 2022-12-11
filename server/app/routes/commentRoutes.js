@@ -5,10 +5,10 @@ const comments = require("../controllers/commentController.js");
 // Create a new Comment
 router.post("/", comments.create);
 
-// Retrieve all replays
+// Retrieve all replies
 router.get("/", comments.getAll);
 
-// Retrieve replays of comment
-router.get("/:id", comments.getReplays);
+// Retrieve replies of comment
+router.get("/:id", comments.getReplies);
 
 module.exports = router;

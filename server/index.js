@@ -14,7 +14,9 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'uploads')))
-app.use(fileUpload({}))
+app.use(fileUpload({
+  createParentPath: true
+}))
 app.use('/api', router);
 
 const PORT = process.env.NODE_DOCKER_PORT || 8080;

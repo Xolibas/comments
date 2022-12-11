@@ -2,7 +2,6 @@
 const {
   Model
 } = require('sequelize');
-const {User} = require('./user');
 module.exports = (sequelize, Sequelize) => {
   class Comment extends Model {
     /**
@@ -17,8 +16,17 @@ module.exports = (sequelize, Sequelize) => {
   Comment.init({
     text: Sequelize.STRING,
     homePage: Sequelize.STRING,
-    userId: Sequelize.INTEGER,
-    commentId: Sequelize.INTEGER,
+    userId: {
+      type: Sequelize.INTEGER,
+    },
+    commentId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Comments',
+        key: 'id'
+      },
+    },
     fileUrl: Sequelize.STRING
   }, {
     sequelize,

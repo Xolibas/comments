@@ -1,14 +1,21 @@
-import React from "react";
+import React, { createContext } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-
 import App from "./App";
+import CommentStore from "./store/CommentStore";
+import UserStore from "./store/UserStore";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
+export const Context = createContext(null);
+
 root.render(
-  <BrowserRouter>
+  <Context.Provider
+    value={{
+      comment: new CommentStore(),
+      user: new UserStore(),
+    }}
+  >
     <App />
-  </BrowserRouter>
+  </Context.Provider>
 );

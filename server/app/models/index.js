@@ -8,6 +8,7 @@ const db = {};
 
 let sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   dialect: process.env.DB_DIALECT
 });
 fs
@@ -32,9 +33,11 @@ db.Sequelize = Sequelize;
 db.users = require("./user.js")(sequelize, Sequelize);
 db.comments = require("./comment.js")(sequelize, Sequelize);
 
+db.comments.associate(db.comments);
+db.comments.associate(db.users);
 db.users.belongsTo(db.comments);
 db.comments.hasOne(db.users);
-db.comments.hasOne(db.comments);
+db.comments.hasMany(db.comments);
 db.comments.belongsTo(db.comments);
 
 module.exports = db;
